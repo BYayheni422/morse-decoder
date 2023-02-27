@@ -1,4 +1,5 @@
 const MORSE_TABLE = {
+    '**********': ' ',
     '.-':     'a',
     '-...':   'b',
     '-.-.':   'c',
@@ -38,9 +39,19 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
-}
+    const onesZeros = [];
+
+    //Длина каждой закодированной буквы равна 10, перебираем и выщемляем "буквы"
+    for (let i = 0; i < expr.length; i += 10) {
+        onesZeros.push(expr.slice(i, i + 10));
+    }
+
+    return onesZeros.reduce((result, elem) => { //обратно схлопываем выщемление в итог
+        const code = elem.replace(/10/g, '.').replace(/11/g, '-').replace(/0/g,''); //по пути создав по эл-там новую конст из 11/10 по Морзе
+        return result += MORSE_TABLE[code];
+    }, '');
+};
 
 module.exports = {
     decode
-}
+};
